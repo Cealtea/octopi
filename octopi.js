@@ -7,6 +7,19 @@ Octopi = function(words) {
     this.add(words[i]);
 };
 
+/**
+* Take serialized Octopi data as string and initialize the Octopi object
+* @param json String The serialized Octopi trie
+*/
+Octopi.load = function(json) {
+    var oct = new Octopi();
+    var o = JSON.parse(json);
+    oct.uid = o.uid;
+    oct.tree = o.tree;
+    oct.table = o.table;
+    return oct;
+}
+
 Octopi.prototype = {
   constructor: Octopi,
   /**
@@ -42,30 +55,18 @@ Octopi.prototype = {
     return sub.$$.map(function(id) {
       return tbl[id];
     });
-  }
+  },
   /**
      * Serialize the Octopi trie as string
      *
      * @return String
      */
   serialize: function(){
-    
-    var o = new Object();
-    o.uid = this.uid;
-    o.tree = this.tree;
-    o.table = this.table;
-
+    var o = { uid: this.uid, 
+              tree: this.tree,
+              table: this.table
+            }
     return JSON.stringify(o);
 
-  },  
-  /**
-     * Take serialized Octopi data as string and initialize the Octopi object
-     * @param json String The serialized Octopi trie
-     */
-  load: function(json){
-    var o = JSON.parse(json);
-    this.uid = o.uid;
-    this.tree = o.tree;
-    this.table = o.table;
   }
 };
